@@ -273,7 +273,9 @@ class Installer
         // This is apparently the most reliable way to figure out if
         // the requery is over http or https.. $_SERVER[REQUEST_SCHEME]
         // is not reliable.
-        $RequestScheme = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' ? 'https' : 'http';
+        $RequestScheme = isset($_SERVER['HTTP_X_FORWARDED_PROTO'])
+                            && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'
+                            ? 'https' : 'http';
 
         return $RequestScheme . '://' . $_SERVER['HTTP_HOST']
             . preg_replace("#/installdb.php#", "", $_SERVER['REQUEST_URI']);
