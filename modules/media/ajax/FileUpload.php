@@ -191,10 +191,11 @@ function getUploadFields()
     $user =& User::singleton();
 
     $recordsQuery = "SELECT c.PSCID, c.CandID, s.CenterID, s.Visit_label, ".
-                    "f.Test_name ".
+                    "f.Test_name, t.Full_name ".
                     "FROM candidate c ".
                     "LEFT JOIN session s USING(CandID) ".
                     "LEFT JOIN flag f ON (s.ID=f.SessionID) ".
+                    "LEFT JOIN test_names t ON (t.Test_name=f.Test_name) ".
                     "WHERE c.PSCID NOT LIKE 'scanner%' ".
                     "AND f.Test_name NOT LIKE 'DDE_%' ";
 
@@ -204,8 +205,11 @@ function getUploadFields()
     }
     $recordsQuery  .= "ORDER BY c.PSCID ASC";
     $sessionRecords = $db->pselect($recordsQuery, []);
-
-    $instrumentsList = toSelect($sessionRecords, "Test_name", null);
+    
+    $instruments = $db->pselect("SELECT Full_name, Test_name FROM test_names ".
+                                "ORDER BY Full_name", []);
+    $instrumentsList = toSelect($instruments, "Full_name", "Test_name");
+    //$instrumentsList = toSelect($sessionRecords, "Test_name", null);
     $candidatesList  = toSelect($sessionRecords, "PSCID", null);
     $candIdList      = toSelect($sessionRecords, "CandID", "PSCID");
     $visitList       = toSelect($sessionRecords, "Visit_label", null);
@@ -266,7 +270,7 @@ function getUploadFields()
         )
         ) {
             $sessionData[$pscid]['instruments'][$visit][$record["Test_name"]]
-                = $record["Test_name"];
+                = $record["Full_name"];
             if (!in_array(
                 $record["Test_name"],
                 $sessionData[$pscid]['instruments']['all'],
@@ -274,7 +278,7 @@ function getUploadFields()
             )
             ) {
                 $sessionData[$pscid]['instruments']['all'][$record["Test_name"]]
-                    = $record["Test_name"];
+                    = $record["Full_name"];
             }
 
         }
