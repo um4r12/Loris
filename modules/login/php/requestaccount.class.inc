@@ -154,7 +154,7 @@ class RequestAccount extends \NDB_Form
                  'Real_name'        => $fullname,
                  'First_name'       => $name,
                  'Last_name'        => $lastname,
-                 'Pending_approval' => 'Y',
+                 'Pending_approval' => 'N',
                  'Email'            => $from,
                 );
 
@@ -215,6 +215,24 @@ class RequestAccount extends \NDB_Form
                     );
                 }
             }
+
+            $email = $from;
+            $user  = \User::Singleton($email);
+            $unhashedPassword = $user->newPassword();
+            $updateSuccessful = $user->updatePassword($unhashedPassword, null);
+            if ($updateSuccessful === false) {
+                error_log("Could not generate password for $email");
+            } else {
+                $config = \NDB_Config::singleton();
+                // send the user an email
+                $msgData['study']    = $config->getSetting('title');
+                $msgData['url']      = $config->getSetting('url');
+                $msgData['realname'] = $fullname;
+                $msgData['username'] = $email;
+                $msgData['password'] = $unhashedPassword;
+                \Email::send($email, 'new_user.tpl', $msgData);
+            }
+
         }
 
         // Verify reCAPTCHA
