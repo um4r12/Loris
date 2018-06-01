@@ -86,7 +86,7 @@ class User_Accounts extends \NDB_Menu_Filter
                                'centerID'  => 'user_psc_rel.CenterID',
                                'active'    => 'users.Active',
                                'userID'    => 'users.UserID',
-                               'real_name' => 'users.Real_name',
+                               'Full_name' => 'users.Real_name',
                                'email'     => 'users.Email',
                                'pending'   => 'users.Pending_approval',
                               );
@@ -162,8 +162,15 @@ class User_Accounts extends \NDB_Menu_Filter
         $deps    = parent::getJSDependencies();
         return array_merge(
             $deps,
-            array($baseURL . "/user_accounts/js/columnFormatter.js")
+            array($baseURL . "/user_accounts/js/user_accounts.js")
         );
+    }
+    function toJSON()
+    {
+        $result         = $this->toArray();
+        $result['form'] = $this->form->form;
+        $result['maxUploadSize'] = \Utility::getMaxUploadSize();
+        return json_encode($result);
     }
 }
 ?>
