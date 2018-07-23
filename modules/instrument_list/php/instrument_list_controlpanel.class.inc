@@ -280,21 +280,21 @@ class Instrument_List_ControlPanel extends \TimePoint
 
         // set the BVLQC flag
         $user =& \User::singleton();
+        
         if (!empty($_REQUEST['setBVLQCStatus'])
             && $user->hasPermission('bvl_feedback')
         ) {
-            $this->setData('BVLQCStatus', $_REQUEST['setBVLQCStatus']);
-            return;
+           $this->setData('BVLQCStatus', $_REQUEST['setBVLQCStatus']);
         } else {
-            $this->setData('BVLQCStatus', null);
-            return;
+           
+           $this->setData('BVLQCStatus', null);
         }
         if (!empty($_REQUEST['setBVLQCType'])
             && $user->hasPermission('bvl_feedback')
-        ) {
+        ) {            
             $this->setData('BVLQCType', $_REQUEST['setBVLQCType']);
             return;
-        } else {
+        } else { 
             $this->setData('BVLQCType', null);
             return;
         }
