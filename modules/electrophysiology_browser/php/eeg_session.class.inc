@@ -29,22 +29,6 @@ class EEG_Session extends \NDB_Form {
 
     public $skipTemplate = true; // stops from looking for a smarty template
 
-
-    function setup ()
-    {
-        parent::setup();
-
-        if ($_GET['outputType']) {
-            // raw
-
-        } else {
-            // all types
-
-        }
-
-
-    }
-
     /**
      * Determine whether the user has permission to view this page
      *
@@ -79,7 +63,7 @@ class EEG_Session extends \NDB_Form {
         $depends = array_merge(
             $depends,
             array(
-                $baseurl . '/electrophysiology/js/eeg_session.js',
+                $baseurl . '/electrophysiology_browser/js/eeg_session.js',
             )
         );
         return $depends;
