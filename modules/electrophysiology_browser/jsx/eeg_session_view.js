@@ -2,22 +2,7 @@
  * This is the React class for the eeg_session.
  */
 
-import StaticDataTable from "jsx/StaticDataTable";
-
-function formatColumn(column, cell, rowData, rowHeaders) {
-
-  loris.hiddenHeaders = [];
-  if (loris.hiddenHeaders.indexOf(column) > -1) {
-    return null;
-  }
-
-  let row = {};
-  rowHeaders.forEach(function(header, index) {
-    row[header] = rowData[index];
-  }, this);
-
-  return <td>{cell}</td>;
-}
+import StaticDataTable from 'jsx/StaticDataTable';
 
 class EEGSessionView extends React.Component {
   constructor(props) {
@@ -187,9 +172,8 @@ class EEGSessionView extends React.Component {
       <div>
         <div id='lorisworkspace'>
           <StaticDataTable
-            Headers={['PSCID', 'DCCID', 'Visit Label']}
-            Data={[['AAA0003', '284432', 'V01']]}
-            getFormattedCell={formatColumn}
+            Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
+            Data={[['AAA0003', '284432', 'V01', 'AAA', '2004-06-03', 'Male', 'native', 'Control Group']]}
             freezeColumn='PSCID'
             Hide={{rowsPerPage:true,downloadCSV:true,defaultColumn:true}}
           />
