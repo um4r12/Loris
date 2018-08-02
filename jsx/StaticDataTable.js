@@ -51,7 +51,7 @@ class StaticDataTable extends React.Component {
     }
 
     // Retrieve module preferences
-    var modulePrefs = JSON.parse(localStorage.getItem('modulePrefs'));
+    let modulePrefs = JSON.parse(localStorage.getItem('modulePrefs'));
 
     // Init modulePrefs object
     if (modulePrefs === null) {
@@ -65,7 +65,7 @@ class StaticDataTable extends React.Component {
     }
 
     // Set rows per page
-    var rowsPerPage = modulePrefs[loris.TestName].rowsPerPage;
+    let rowsPerPage = modulePrefs[loris.TestName].rowsPerPage;
     this.setState({
       RowsPerPage: rowsPerPage
     });
@@ -87,7 +87,7 @@ class StaticDataTable extends React.Component {
       (this.state.SortColumn !== prevState.SortColumn ||
       this.state.SortOrder !== prevState.SortOrder)
     ) {
-      var index = this.getSortedRows();
+      let index = this.getSortedRows();
       this.props.onSort(index, this.props.Data, this.props.Headers);
     }
   }
