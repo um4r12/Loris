@@ -5,8 +5,8 @@ var fs = require('fs');
 var config = [{
   entry: {
     './htdocs/js/components/DynamicDataTable.js': './jsx/DynamicDataTable.js',
-    './htdocs/js/components/PaginationLinks.js': './jsx/PaginationLinks.js',
-    './htdocs/js/components/StaticDataTable.js': './jsx/StaticDataTable.js',
+    // './htdocs/js/components/PaginationLinks.js': './jsx/PaginationLinks.js',
+    // './htdocs/js/components/StaticDataTable.js': './jsx/StaticDataTable.js',
     './htdocs/js/components/Breadcrumbs.js': './jsx/Breadcrumbs.js',
     './htdocs/js/components/Form.js': './jsx/Form.js',
     './htdocs/js/components/Markdown.js': './jsx/Markdown.js',
@@ -30,7 +30,7 @@ var config = [{
     './modules/dicom_archive/js/dicom_archive.js': './modules/dicom_archive/jsx/dicom_archive.js',
     './modules/genomic_browser/js/FileUploadModal.js': './modules/genomic_browser/jsx/FileUploadModal.js',
     './modules/electrophysiology_browser/js/electrophysiology_browser.js': './modules/electrophysiology_browser/jsx/electrophysiology_browser.js',
-    './modules/electrophysiology_browser/js/eeg_session.js': './modules/electrophysiology_browser/jsx/eeg_session.js',
+    './modules/electrophysiology_browser/js/eeg_session_view.js': './modules/electrophysiology_browser/jsx/eeg_session_view.js',
     './modules/electrophysiology_browser/js/eeg_visualization.js': './modules/electrophysiology_browser/jsx/eeg_visualization.js',
     './modules/genomic_browser/js/profileColumnFormatter.js': './modules/genomic_browser/jsx/profileColumnFormatter.js',
     './modules/imaging_browser/js/ImagePanel.js': './modules/imaging_browser/jsx/ImagePanel.js',
@@ -53,7 +53,8 @@ var config = [{
     './modules/brainbrowser/js/Brainbrowser.js': './modules/brainbrowser/jsx/Brainbrowser.js',
     './modules/data_integrity_flag/js/index.js': './modules/data_integrity_flag/jsx/index.js',
     './modules/imaging_uploader/js/index.js': './modules/imaging_uploader/jsx/index.js',
-    './modules/acknowledgements/js/columnFormatter.js': './modules/acknowledgements/jsx/columnFormatter.js'
+    './modules/acknowledgements/js/columnFormatter.js': './modules/acknowledgements/jsx/columnFormatter.js',
+    'components': ['./jsx/StaticDataTable', './jsx/PaginationLinks']
   },
   output: {
     path: './',

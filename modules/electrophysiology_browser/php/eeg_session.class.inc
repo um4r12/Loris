@@ -63,7 +63,7 @@ class EEG_Session extends \NDB_Form {
         $depends = array_merge(
             $depends,
             array(
-                $baseurl . '/electrophysiology_browser/js/eeg_session.js',
+                $baseurl . '/electrophysiology_browser/js/eeg_session_view.js',
             )
         );
         return $depends;
