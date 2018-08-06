@@ -122,6 +122,17 @@ class Imaging_Session_ControlPanel
             $tarIDToTarLoc[$tarchiveID]['ArchiveLocation']  = $v['ArchiveLocation'];
             $tarIDToTarLoc[$tarchiveID]['originalFileName'] = $v['originalFileName'];
             $tarIDToTarLoc[$tarchiveID]['PatientName']      = $v['PatientName'];
+            $test = 'STJ82742_136979_V01_20180710_093539272.zip';
+            $parse = explode('_', $test); 
+            $timestamp = substr($parse[4], 0,4);
+            $dicomFileName = substr($v['ArchiveLocation'], 20);
+            $downloadAs = implode('_', array_slice($parse, 0,
+            4)).'_'.$timestamp.'_'.$dicomFileName; 
+            $tarIDToTarLoc[$tarchiveID]['downloadAs']       =
+            $downloadAs;//
+           
+            //originalFileName minus last part of the underscore then concatenate
+           // archivelocation['
         }
         $subjectData['tarchiveIDLoc'] = $tarIDToTarLoc;
 
