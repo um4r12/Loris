@@ -3,6 +3,7 @@
  */
 
 import StaticDataTable from 'jsx/StaticDataTable';
+import Panel from "jsx/Panel";
 
 class EEGSessionView extends React.Component {
   constructor(props) {
@@ -175,8 +176,13 @@ class EEGSessionView extends React.Component {
             Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
             Data={[['AAA0003', '284432', 'V01', 'AAA', '2004-06-03', 'Male', 'native', 'Control Group']]}
             freezeColumn='PSCID'
-            Hide={{rowsPerPage:true,downloadCSV:true,defaultColumn:true}}
+            Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
           />
+          <div>
+            <Panel id="filename_panel" title="FILENAME">
+              Hello
+            </Panel>
+          </div>
         </div>
       </div>
     );
