@@ -185,8 +185,8 @@ class Electrophysiology_Browser extends \NDB_Menu_Filter {
         return array_merge(
             $deps,
             array(
-                $baseURL . "/electrophysiology_browser/js/electrophysiology_browser.js",
-                $baseURL . "/electrophysiology_browser/js/columnFormatter.js",
+                $baseURL . '/electrophysiology_browser/js/electrophysiology_browser.js',
+                $baseURL . '/electrophysiology_browser/js/columnFormatter.js',
             )
         );
     }

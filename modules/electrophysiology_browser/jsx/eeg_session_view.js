@@ -180,8 +180,177 @@ class EEGSessionView extends React.Component {
           />
           <div>
             <Panel id="filename_panel" title="FILENAME">
-              Hello
+              <div className={'container-fluid'}>
+                <div className={'row'}>
+                  <div className={'col-sm-4'} style={{minWidth: '300px', height: '250px', paddingBottom: '10px'}}>
+                    ..insert head image here..
+                  </div>
+                  <div className={'col-sm-4'} style={{minWidth: '300px', paddingBottom: '10px'}}>
+                    <table style={{width: '100%', minWidth: '300px'}}>
+                      <caption style={{
+                        backgroundColor:'#074785',
+                        color: 'white',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        fontSize: 15
+                      }}>Task Name: FaceHousCheck</caption>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>Sampling Frequency</th>
+                        <td>512</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>EEG Channel Count</th>
+                        <td>128</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>EOG Channel Count</th>
+                        <td>0</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>ECG Channel Count</th>
+                        <td>0</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>EMG Channel Count</th>
+                        <td>0</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>EEG Reference</th>
+                        <td>Common</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', height: '30px'}}>
+                        <th scope="row" style={{color: '#074785', paddingLeft:'5px'}}>Powerline Frequency</th>
+                        <td>60Hz</td>
+                      </tr>
+                    </table>
+                  </div>
+                  <div className={'col-sm-4'} style={{minWidth: '300px', paddingBottom: '10px'}}>
+                    <div className={'form-group row flex-v-center'}>
+                      <div className={'col-xs-5'} style={{textAlign: 'center', verticalAlign: 'middle', lineHeight: '40px', color: '#074785', fontWeight: 'bold'}}>EEG File</div>
+                      <div className={'col-xs-2'}><button className={'button_download_eeg'}>Download</button></div>
+                    </div>
+                    <div className={'form-group row flex-v-center'}>
+                      <div className={'col-xs-5'} style={{textAlign: 'center', verticalAlign: 'middle', lineHeight: '40px', color: '#074785', fontWeight: 'bold'}}>Electrode Info</div>
+                      <div className={'col-xs-2'}><button className={'button_download_eeg'}>Download</button></div>
+                    </div>
+                    <div className={'form-group row flex-v-center'}>
+                      <div className={'col-xs-5'} style={{textAlign: 'center', verticalAlign: 'middle', lineHeight: '40px', color: '#074785', fontWeight: 'bold'}}>Channels Info</div>
+                      <div className={'col-xs-2'}><button className={'button_download_eeg'}>Download</button></div>
+                    </div>
+                    <div className={'form-group row flex-v-center'}>
+                      <div className={'col-xs-5'} style={{textAlign: 'center', verticalAlign: 'middle', lineHeight: '40px', color: '#074785', fontWeight: 'bold'}}>Events</div>
+                      <div className={'col-xs-2'}><button className={'button_download_eeg'}>Download</button></div>
+                    </div>
+                    <div className={'form-group row flex-v-center'}>
+                      <div className={'col-xs-5'} style={{textAlign: 'center', verticalAlign: 'middle', lineHeight: '40px', color: '#074785', fontWeight: 'bold'}}>All Files</div>
+                      <div className={'col-xs-2'}><button className={'button_download_eeg'}>Download</button></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Panel>
+
+            <Panel id="data_panel" title="DATA DETAILS">
+              <div className={'container-fluid'}>
+                <div className={'row'}>
+                  <div className={'col-sm-6'}>
+                    <table style={{minWidth: '300px', maxWidth: '100%'}}>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Task Description</th>
+                        <td style={{padding:'10px'}}>Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Instructions</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>EEG Ground</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Trigger Count</th>
+                        <td style={{padding:'10px'}}>0</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>EEG Placement Scheme</th>
+                        <td style={{padding:'10px'}}>Custom equidistant 128 channel BioSemi montage established in coordination with Judith Schedden McMaster University</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Record Type</th>
+                        <td style={{padding:'10px'}}>Continuous</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>CogAtlas ID</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>CogPOID</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Institution Name</th>
+                        <td style={{padding:'10px'}}>Brock University</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Institution Address</th>
+                        <td style={{padding:'10px'}}>500 Glenrifge Ave, St.Catharines, Ontario</td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div className={'col-sm-6'}>
+                    <table style={{minWidth: '300px', maxWidth: '100%'}}>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Device Serial Number</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Misc Channel Count</th>
+                        <td style={{padding:'10px'}}>0</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Manufacturer</th>
+                        <td style={{padding:'10px'}}>BioSemi</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Manufacturer Model Name</th>
+                        <td style={{padding:'10px'}}>Active Two</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Cap Manufacturer</th>
+                        <td style={{padding:'10px'}}>Electro Cap International</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Cap Model Name</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Hardware Filters</th>
+                        <td style={{padding:'10px'}}>DC to Nyquist 512Hz</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Recording Duration</th>
+                        <td style={{padding:'10px'}}>2045</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Epoch Length</th>
+                        <td style={{padding:'10px'}}>Inf</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Device Version</th>
+                        <td style={{padding:'10px'}}>NI ActiView 532-Lores</td>
+                      </tr>
+                      <tr style={{border: '1px solid gray', minHeight: '30px'}}>
+                        <th scope="row" style={{color: '#074785', padding:'10px'}}>Subject Artifact Description</th>
+                        <td style={{padding:'10px'}}></td>
+                      </tr>
+                    </table>
+                  </div>
+
+                </div>
+              </div>
+            </Panel>
+
           </div>
         </div>
       </div>

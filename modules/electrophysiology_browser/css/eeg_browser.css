@@ -1,0 +1,17 @@
+.button_download_eeg {
+    height: 40px;
+    width: 140px;
+    outline: none;
+    color: #1c4781;
+    cursor: pointer;
+    border-radius: 40px;
+    text-decoration: none;
+    border: 1px solid #1c4781;
+    background-color: #ffffff;
+}
+.col-centered {
+    width: auto;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-around;
+}

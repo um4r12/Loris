@@ -51,6 +51,25 @@ class EEG_Session extends \NDB_Form {
     }
 
     /**
+     * Include additional CSS files:
+     *  1. eeg_browser.css
+     *
+     * @return array of css to be inserted
+     */
+    function getCSSDependencies()
+    {
+        $factory = \NDB_Factory::singleton();
+        $baseURL = $factory->settings()->getBaseURL();
+        $deps    = parent::getCSSDependencies();
+        return array_merge(
+            $deps,
+            array(
+                $baseURL . '/electrophysiology_browser/css/eeg_browser.css',
+            )
+        );
+    }
+
+    /**
      * Get js Dependencies
      *
      * @return array
