@@ -250,10 +250,10 @@ class EEGSessionView extends React.Component {
               </div>
             </Panel>
 
-            <Panel id="data_panel" title="DATA DETAILS">
+            <Panel id="data_panel" title="DATA DETAILS" style={{padding: 0}}>
               <div className={'container-fluid'}>
                 <div className={'row'}>
-                  <div className={'col-sm-6'}>
+                  <div className={'col-sm-6'} style={{padding: 0}}>
                     <table style={{minWidth: '300px', maxWidth: '100%'}}>
                       <tr style={{border: '1px solid gray', minHeight: '30px'}}>
                         <th scope="row" style={{color: '#074785', padding:'10px'}}>Task Description</th>
@@ -298,7 +298,7 @@ class EEGSessionView extends React.Component {
                     </table>
                   </div>
 
-                  <div className={'col-sm-6'}>
+                  <div className={'col-sm-6'} style={{padding: 0}}>
                     <table style={{minWidth: '300px', maxWidth: '100%'}}>
                       <tr style={{border: '1px solid gray', minHeight: '30px'}}>
                         <th scope="row" style={{color: '#074785', padding:'10px'}}>Device Serial Number</th>
