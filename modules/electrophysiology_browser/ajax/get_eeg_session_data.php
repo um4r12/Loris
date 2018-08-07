@@ -51,6 +51,8 @@ function getSessionData($sessionID)
     return $response;
 }
 
+
+
 function getSubjectData($sessionID)
 {
     $subjectData = array();
