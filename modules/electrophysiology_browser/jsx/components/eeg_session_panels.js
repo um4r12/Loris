@@ -1,7 +1,7 @@
 /**
  * This file contains React component for Electrophysiology module.
  *
- * @author Alizée W.
+ * @author Alizée Wickenheiser.
  * @version 0.0.1
  *
  */
@@ -99,7 +99,7 @@ class FilePanel extends React.Component {
     };
 
     return(
-      <Panel id={this.props.id} title="FILENAME">
+      <Panel id={this.props.id} title={this.props.title}>
         <div className={'container-fluid'}>
           <div className={'row'}>
             <div className={'col-sm-4'} style={styles.div.container.details}>
@@ -109,31 +109,31 @@ class FilePanel extends React.Component {
               <table style={styles.table.style}>
                 <caption style={styles.table.caption}>Task Name: FaceHousCheck</caption>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Sampling Frequency</th>
+                  <th scope='row' style={styles.table.header}>Sampling Frequency</th>
                   <td>512</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EEG Channel Count</th>
+                  <th scope='row' style={styles.table.header}>EEG Channel Count</th>
                   <td>128</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EOG Channel Count</th>
+                  <th scope='row' style={styles.table.header}>EOG Channel Count</th>
                   <td>0</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>ECG Channel Count</th>
+                  <th scope='row' style={styles.table.header}>ECG Channel Count</th>
                   <td>0</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EMG Channel Count</th>
+                  <th scope='row' style={styles.table.header}>EMG Channel Count</th>
                   <td>0</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EEG Reference</th>
+                  <th scope='row' style={styles.table.header}>EEG Reference</th>
                   <td>Common</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Powerline Frequency</th>
+                  <th scope='row' style={styles.table.header}>Powerline Frequency</th>
                   <td>60Hz</td>
                 </tr>
               </table>
@@ -227,43 +227,43 @@ class DetailsPanel extends React.Component {
             <div className={'col-sm-6'} style={styles.container.task}>
               <table style={styles.table.style}>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Task Description</th>
+                  <th scope='row' style={styles.table.header}>Task Description</th>
                   <td style={styles.table.data}>Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Instructions</th>
+                  <th scope='row' style={styles.table.header}>Instructions</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EEG Ground</th>
+                  <th scope='row' style={styles.table.header}>EEG Ground</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Trigger Count</th>
+                  <th scope='row' style={styles.table.header}>Trigger Count</th>
                   <td style={styles.table.data}>0</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>EEG Placement Scheme</th>
+                  <th scope='row' style={styles.table.header}>EEG Placement Scheme</th>
                   <td style={styles.table.data}>Custom equidistant 128 channel BioSemi montage established in coordination with Judith Schedden McMaster University</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Record Type</th>
+                  <th scope='row' style={styles.table.header}>Record Type</th>
                   <td style={styles.table.data}>Continuous</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>CogAtlas ID</th>
+                  <th scope='row' style={styles.table.header}>CogAtlas ID</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>CogPOID</th>
+                  <th scope='row' style={styles.table.header}>CogPOID</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Institution Name</th>
+                  <th scope='row' style={styles.table.header}>Institution Name</th>
                   <td style={styles.table.data}>Brock University</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Institution Address</th>
+                  <th scope='row' style={styles.table.header}>Institution Address</th>
                   <td style={styles.table.data}>500 Glenrifge Ave, St.Catharines, Ontario</td>
                 </tr>
               </table>
@@ -272,27 +272,27 @@ class DetailsPanel extends React.Component {
             <div className={'col-sm-6'} style={styles.container.device}>
               <table style={styles.table.style}>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Device Serial Number</th>
+                  <th scope='row' style={styles.table.header}>Device Serial Number</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Misc Channel Count</th>
+                  <th scope='row' style={styles.table.header}>Misc Channel Count</th>
                   <td style={styles.table.data}>0</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Manufacturer</th>
+                  <th scope='row' style={styles.table.header}>Manufacturer</th>
                   <td style={styles.table.data}>BioSemi</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Manufacturer Model Name</th>
+                  <th scope='row' style={styles.table.header}>Manufacturer Model Name</th>
                   <td style={styles.table.data}>Active Two</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Cap Manufacturer</th>
+                  <th scope='row' style={styles.table.header}>Cap Manufacturer</th>
                   <td style={styles.table.data}>Electro Cap International</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Cap Model Name</th>
+                  <th scope='row' style={styles.table.header}>Cap Model Name</th>
                   <td style={styles.table.data}></td>
                 </tr>
                 <tr style={styles.table.row}>
@@ -300,19 +300,19 @@ class DetailsPanel extends React.Component {
                   <td style={styles.table.data}>DC to Nyquist 512Hz</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Recording Duration</th>
+                  <th scope='row' style={styles.table.header}>Recording Duration</th>
                   <td style={styles.table.data}>2045</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Epoch Length</th>
+                  <th scope='row' style={styles.table.header}>Epoch Length</th>
                   <td style={styles.table.data}>Inf</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Device Version</th>
+                  <th scope='row' style={styles.table.header}>Device Version</th>
                   <td style={styles.table.data}>NI ActiView 532-Lores</td>
                 </tr>
                 <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Subject Artifact Description</th>
+                  <th scope='row' style={styles.table.header}>Subject Artifact Description</th>
                   <td style={styles.table.data}></td>
                 </tr>
               </table>

@@ -1,5 +1,9 @@
 /**
  * This is the React class for the eeg_session.
+ *
+ * @author Alizée Wickenheiser.
+ * @version 0.0.1
+ *
  */
 
 import StaticDataTable from 'jsx/StaticDataTable';
@@ -16,7 +20,6 @@ class EEGSessionView extends React.Component {
           outputType: ''
         }
       }
-
     };
 
     // Bind component instance to custom methods
@@ -169,6 +172,23 @@ class EEGSessionView extends React.Component {
    */
   render() {
 
+    let database = [];
+    for (let i=0; i<10; i++) {
+      database.push(
+        <div>
+          <FilePanel
+            id={'filename_panel_' + i}
+            title={'FILENAME (' + i + ')'}
+          />
+
+          <DetailsPanel
+            id={'data_panel_' + i}
+            title={'DATA DETAILS (' + i + ')'}
+          />
+        </div>
+      );
+    }
+
     return (
       <div id='lorisworkspace'>
         <StaticDataTable
@@ -178,15 +198,8 @@ class EEGSessionView extends React.Component {
           Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
         />
 
-        <FilePanel
-          id={'filename_panel'}
-          title={'FILENAME'}
-        />
+        {database}
 
-        <DetailsPanel
-          id={'data_panel'}
-          title={'DATA DETAILS'}
-        />
       </div>
     );
   }
