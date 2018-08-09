@@ -19,7 +19,90 @@ class EEGSessionView extends React.Component {
           sessionID: '',
           outputType: ''
         }
-      }
+      },
+      patient: {
+        info: {
+          pscid: 'cbm001',
+          dccid: '649990',
+          visit_label: 'V01',
+          site: 'CBM',
+          dob: '1990-09-18',
+          gender: 'Female',
+          output_type: 'native',
+          subproject: 'Control Group'
+        }
+      },
+      database: [
+        {
+          file: {
+            name: '',
+            task: {
+              frequency: {
+                sampling: 512,
+                powerline: '60Hz'
+              },
+              channel: [
+                {
+                  name: 'EEG Channel Count',
+                  value: 128
+                },
+                {
+                  name: 'EOG Channel Count',
+                  value: 0
+                },
+                {
+                  name: 'ECG Channel Count',
+                  value: 0
+                },
+                {
+                  name: 'EMG Channel Count',
+                  value: 0
+                }
+              ],
+              reference: 'Common'
+            },
+          },
+          details: {
+            task: {
+              description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
+            },
+            instructions: '',
+            eeg: {
+              ground: '',
+              placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
+            },
+            trigger_count: '0',
+            record_type: 'Continuous',
+            cog: {
+              atlas_id: '',
+              poid: '',
+            },
+            institution: {
+              name: 'Brock University',
+              address: '500 Glenrifge Ave, St. Catharines, Ontario',
+            },
+            misc: {
+              channel_count: '0',
+            },
+            manufacturer: {
+              name: 'BioSemi',
+              model_name: 'Active Two'
+            },
+            cap: {
+              manufacturer: 'Electro Cap International',
+              model_name: '',
+            },
+            hardware_filters: '',
+            recording_duration: '2045',
+            epoch_length: 'Inf',
+            device: {
+              version: 'NI ActiView 532-Lores',
+              serial_number: '',
+            },
+            subject_artifact_description: ''
+          }
+        }
+      ]
     };
 
     // Bind component instance to custom methods
@@ -67,97 +150,6 @@ class EEGSessionView extends React.Component {
       data: this.state.url.params,
       success: function(data) {
         console.log('ajax (get) - success!');
-        data = {
-          eeg: {
-            patient: {
-              info: {
-                pscid: 'cbm001',
-                dccid: '649990',
-                visit_label: 'V01',
-                site: 'CBM',
-                dob: '',
-                gender: '',
-                output_type: '',
-                subproject: ''
-              }
-            },
-            database: [
-              {
-                file: {
-                  name: '',
-                  task: {
-                    frequency: {
-                      sampling: 512,
-                      powerline: '60Hz'
-                    },
-                    channel: [
-                      {
-                        name: 'EEG Channel Count',
-                        value: 128
-                      },
-                      {
-                        name: 'EOG Channel Count',
-                        value: 0
-                      },
-                      {
-                        name: 'EOG Channel Count',
-                        value: 0
-                      },
-                      {
-                        name: 'ECG Channel Count',
-                        value: 0
-                      },
-                      {
-                        name: 'EMG Channel Count',
-                        value: 0
-                      }
-                    ],
-                    reference: 'Common'
-                  },
-                },
-                details: {
-                  task: {
-                    description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
-                  },
-                  instructions: '',
-                  eeg: {
-                    ground: '',
-                    placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
-                  },
-                  trigger_count: '0',
-                  record_type: '',
-                  cog: {
-                    atlas_id: '',
-                    poid: '',
-                  },
-                  institution: {
-                    name: '',
-                    address: '',
-                  },
-                  misc: {
-                    channel_count: '',
-                  },
-                  manufacturer: {
-                    name: '',
-                    model_name: ''
-                  },
-                  cap: {
-                    manufacturer: '',
-                    model_name: '',
-                  },
-                  hardware_filters: '',
-                  recording_duration: '',
-                  epoch_length: '',
-                  device: {
-                    version: '',
-                    serial_number: '',
-                  },
-                  subject_artifact_description: ''
-                }
-              }
-            ]
-          }
-      };
         console.log(data);
       }.bind(this),
       error: function(error) {
@@ -179,11 +171,13 @@ class EEGSessionView extends React.Component {
           <FilePanel
             id={'filename_panel_' + i}
             title={'FILENAME (' + i + ')'}
+            data={this.state.database[0].file}
           />
 
           <DetailsPanel
             id={'data_panel_' + i}
             title={'DATA DETAILS (' + i + ')'}
+            data={this.state.database[0].details}
           />
         </div>
       );
@@ -193,7 +187,18 @@ class EEGSessionView extends React.Component {
       <div id='lorisworkspace'>
         <StaticDataTable
           Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
-          Data={[['AAA0003', '284432', 'V01', 'AAA', '2004-06-03', 'Male', 'native', 'Control Group']]}
+          Data={[
+            [
+              this.state.patient.info.pscid,
+              this.state.patient.info.dccid,
+              this.state.patient.info.visit_label,
+              this.state.patient.info.site,
+              this.state.patient.info.dob,
+              this.state.patient.info.gender,
+              this.state.patient.info.output_type,
+              this.state.patient.info.subproject
+            ]
+          ]}
           freezeColumn='PSCID'
           Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
         />
