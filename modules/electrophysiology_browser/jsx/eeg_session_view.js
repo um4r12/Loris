@@ -284,7 +284,6 @@ window.onload = function() {
   EEGSidebarDOM.id = 'eegSidebar';
 
   let page = document.getElementById('page');
-  //page.style.display = 'table-cell';
   page.style.verticalAlign = 'top';
   page.style.position = 'relative';
   page.style.width = 'auto';
