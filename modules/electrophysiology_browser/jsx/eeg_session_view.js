@@ -186,37 +186,28 @@ class EEGSessionView extends React.Component {
       );
     }
 
-    const sidebar_content = <SidebarContent />;
-
     return (
-      <div>
-        <Sidebar
-          content={sidebar_content}
-          open={true}
-          docked={true}>
-        </Sidebar>
-        <div id='lorisworkspace'>
-          <StaticDataTable
-            Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
-            Data={[
-              [
-                this.state.patient.info.pscid,
-                this.state.patient.info.dccid,
-                this.state.patient.info.visit_label,
-                this.state.patient.info.site,
-                this.state.patient.info.dob,
-                this.state.patient.info.gender,
-                this.state.patient.info.output_type,
-                this.state.patient.info.subproject
-              ]
-            ]}
-            freezeColumn='PSCID'
-            Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
-          />
+      <div id='lorisworkspace'>
+        <StaticDataTable
+          Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
+          Data={[
+            [
+              this.state.patient.info.pscid,
+              this.state.patient.info.dccid,
+              this.state.patient.info.visit_label,
+              this.state.patient.info.site,
+              this.state.patient.info.dob,
+              this.state.patient.info.gender,
+              this.state.patient.info.output_type,
+              this.state.patient.info.subproject
+            ]
+          ]}
+          freezeColumn='PSCID'
+          Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
+        />
 
-          {database}
+        {database}
 
-        </div>
       </div>
     );
   }
@@ -232,6 +223,35 @@ EEGSessionView.defaultProps = {
  * Render EEGSession on page load.
  */
 window.onload = function() {
+
+  const sidebar_content = <SidebarContent />;
+
+  const eegSidebar = (
+    <Sidebar
+      content={sidebar_content}
+      open={true}
+      docked={true}>
+    </Sidebar>
+  );
+
+  const EEGSidebarDOM = document.createElement('div');
+  EEGSidebarDOM.style.top = '0';
+  EEGSidebarDOM.style.bottom = '0';
+  EEGSidebarDOM.style.left = '0';
+  EEGSidebarDOM.style.display = 'table-cell';
+  EEGSidebarDOM.style.height = 'calc(100%);';
+  EEGSidebarDOM.style.position = 'fixed';
+  EEGSidebarDOM.id = 'eegSidebar';
+
+  let page = document.getElementById('page');
+  //page.style.display = 'table-cell';
+  page.style.verticalAlign = 'top';
+  page.style.position = 'relative';
+  page.style.width = 'auto';
+  page.style.marginLeft = '256px';
+  const wrapDOM = document.getElementById('wrap');
+  wrapDOM.insertBefore(EEGSidebarDOM, page);
+
   const eegSessionView = (
     <EEGSessionView
       module={'eegSessionView'}
@@ -247,4 +267,6 @@ window.onload = function() {
 
   // Render the React Component.
   ReactDOM.render(eegSessionView, document.getElementById('eegSessionView'));
+
+  ReactDOM.render(eegSidebar, document.getElementById('eegSidebar'));
 };

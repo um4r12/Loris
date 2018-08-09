@@ -8,7 +8,7 @@ const style = {
         top: 0,
         bottom: 0,
         overflow: 'auto',
-        display: 'table-cell'
+        // display: 'table-cell'
     },
     sidebar: {
         top: 0,

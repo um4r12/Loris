@@ -41,7 +41,16 @@ const SidebarContent = (props) => {
 
     return (
         <div style={{fontWeight: 200, fontFamily: 'Helvetica, Arial, sans-serif',width: 256, height: '100%',}}>
-            <div style={{color: '#fff', fontSize: '20px', fontWeight: 'bold', padding: '28px 0 0 0', backgroundColor: '#1a487e'}}>
+            <div style={
+                {
+                  color: '#fff',
+                  fontSize: '20px',
+                  fontWeight: 'bold',
+                  padding: '100px 0 0 0',
+                  backgroundColor: '#1a487e',
+                  textAlign: 'center'
+                }
+            }>
                 Navigation
             </div>
             <div style={styles.content}>
