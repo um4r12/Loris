@@ -8,6 +8,9 @@
 
 import StaticDataTable from 'jsx/StaticDataTable';
 import {FilePanel, DetailsPanel} from './components/eeg_session_panels';
+import Sidebar from './components/Sidebar'
+import SidebarContent from './components/SidebarContent'
+
 
 class EEGSessionView extends React.Component {
   constructor(props) {
@@ -183,28 +186,37 @@ class EEGSessionView extends React.Component {
       );
     }
 
+    const sidebar_content = <SidebarContent />;
+
     return (
-      <div id='lorisworkspace'>
-        <StaticDataTable
-          Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
-          Data={[
-            [
-              this.state.patient.info.pscid,
-              this.state.patient.info.dccid,
-              this.state.patient.info.visit_label,
-              this.state.patient.info.site,
-              this.state.patient.info.dob,
-              this.state.patient.info.gender,
-              this.state.patient.info.output_type,
-              this.state.patient.info.subproject
-            ]
-          ]}
-          freezeColumn='PSCID'
-          Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
-        />
+      <div>
+        <Sidebar
+          content={sidebar_content}
+          open={true}
+          docked={true}>
+        </Sidebar>
+        <div id='lorisworkspace'>
+          <StaticDataTable
+            Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
+            Data={[
+              [
+                this.state.patient.info.pscid,
+                this.state.patient.info.dccid,
+                this.state.patient.info.visit_label,
+                this.state.patient.info.site,
+                this.state.patient.info.dob,
+                this.state.patient.info.gender,
+                this.state.patient.info.output_type,
+                this.state.patient.info.subproject
+              ]
+            ]}
+            freezeColumn='PSCID'
+            Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
+          />
 
-        {database}
+          {database}
 
+        </div>
       </div>
     );
   }
