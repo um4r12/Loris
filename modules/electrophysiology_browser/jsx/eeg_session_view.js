@@ -17,6 +17,7 @@ class EEGSessionView extends React.Component {
     super(props);
 
     this.state = {
+      isLoaded: false,
       url: {
         params: {
           sessionID: '',
@@ -64,46 +65,46 @@ class EEGSessionView extends React.Component {
               ],
               reference: 'Common'
             },
+            details: {
+              task: {
+                description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
+              },
+              instructions: '',
+              eeg: {
+                ground: '',
+                placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
+              },
+              trigger_count: '0',
+              record_type: 'Continuous',
+              cog: {
+                atlas_id: '',
+                poid: '',
+              },
+              institution: {
+                name: 'Brock University',
+                address: '500 Glenrifge Ave, St. Catharines, Ontario',
+              },
+              misc: {
+                channel_count: '0',
+              },
+              manufacturer: {
+                name: 'BioSemi',
+                model_name: 'Active Two'
+              },
+              cap: {
+                manufacturer: 'Electro Cap International',
+                model_name: '',
+              },
+              hardware_filters: '',
+              recording_duration: '2045',
+              epoch_length: 'Inf',
+              device: {
+                version: 'NI ActiView 532-Lores',
+                serial_number: '',
+              },
+              subject_artifact_description: ''
+            }
           },
-          details: {
-            task: {
-              description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
-            },
-            instructions: '',
-            eeg: {
-              ground: '',
-              placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
-            },
-            trigger_count: '0',
-            record_type: 'Continuous',
-            cog: {
-              atlas_id: '',
-              poid: '',
-            },
-            institution: {
-              name: 'Brock University',
-              address: '500 Glenrifge Ave, St. Catharines, Ontario',
-            },
-            misc: {
-              channel_count: '0',
-            },
-            manufacturer: {
-              name: 'BioSemi',
-              model_name: 'Active Two'
-            },
-            cap: {
-              manufacturer: 'Electro Cap International',
-              model_name: '',
-            },
-            hardware_filters: '',
-            recording_duration: '2045',
-            epoch_length: 'Inf',
-            device: {
-              version: 'NI ActiView 532-Lores',
-              serial_number: '',
-            },
-            subject_artifact_description: ''
-          }
         }
       ]
     };
@@ -153,7 +154,23 @@ class EEGSessionView extends React.Component {
       data: this.state.url.params,
       success: function(data) {
         console.log('ajax (get) - success!');
-        console.log(data);
+        console.log(JSON.stringify(data));
+
+        this.getState((appState) => {
+          appState.setup = {
+            data
+          };
+          appState.isLoaded = true;
+          appState.patient.info = data.patient;
+          let database = [];
+          for (let i=0; i<data.database.length; i++) {
+            database.push(data.database[i]);
+          }
+
+          appState.database = database;
+          this.setState(appState);
+          console.log(JSON.stringify(appState));
+        });
       }.bind(this),
       error: function(error) {
         console.log('ajax (get) - error!');
@@ -163,53 +180,76 @@ class EEGSessionView extends React.Component {
   }
 
   /**
+   * Retrieve the previous state.
+   */
+  getState(callback) {
+    this.setState((prevState) => {
+      callback(prevState);
+    });
+  }
+
+  /**
    * Render the HTML.
    */
   render() {
 
-    let database = [];
-    for (let i=0; i<10; i++) {
-      database.push(
-        <div>
-          <FilePanel
-            id={'filename_panel_' + i}
-            title={'FILENAME (' + i + ')'}
-            data={this.state.database[0].file}
+    if (!this.state.isLoaded) {
+      return (
+        <button className="btn-info has-spinner">
+          Loading
+          <span
+            className="glyphicon glyphicon-refresh glyphicon-refresh-animate">
+          </span>
+        </button>
+      );
+    }
+
+    if (this.state.isLoaded) {
+      let database = [];
+      for (let i=0; i<this.state.database.length; i++) {
+        database.push(
+          <div>
+            <FilePanel
+              id={'filename_panel_' + i}
+              title={'FILENAME (' + i + ')'}
+              data={this.state.database[i].file}
+            />
+
+            <DetailsPanel
+              id={'data_panel_' + i}
+              title={'DATA DETAILS (' + i + ')'}
+              data={this.state.database[i].file.details}
+            />
+          </div>
+        );
+      }
+
+      return (
+        <div id='lorisworkspace'>
+          <StaticDataTable
+            Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
+            Data={[
+              [
+                this.state.patient.info.pscid,
+                this.state.patient.info.dccid,
+                this.state.patient.info.visit_label,
+                this.state.patient.info.site,
+                this.state.patient.info.dob,
+                this.state.patient.info.gender,
+                this.state.patient.info.output_type,
+                this.state.patient.info.subproject
+              ]
+            ]}
+            freezeColumn='PSCID'
+            Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
           />
 
-          <DetailsPanel
-            id={'data_panel_' + i}
-            title={'DATA DETAILS (' + i + ')'}
-            data={this.state.database[0].details}
-          />
+          {database}
+
         </div>
       );
     }
 
-    return (
-      <div id='lorisworkspace'>
-        <StaticDataTable
-          Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
-          Data={[
-            [
-              this.state.patient.info.pscid,
-              this.state.patient.info.dccid,
-              this.state.patient.info.visit_label,
-              this.state.patient.info.site,
-              this.state.patient.info.dob,
-              this.state.patient.info.gender,
-              this.state.patient.info.output_type,
-              this.state.patient.info.subproject
-            ]
-          ]}
-          freezeColumn='PSCID'
-          Hide={{rowsPerPage:true, downloadCSV:true, defaultColumn:true}}
-        />
-
-        {database}
-
-      </div>
-    );
   }
 }
 EEGSessionView.propTypes = {

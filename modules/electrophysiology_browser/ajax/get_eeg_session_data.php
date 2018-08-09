@@ -34,7 +34,6 @@ if (!$user->hasPermission('electrophysiology_browser_view_allsites')
     exit;
 }
 
-
 $response = getSessionData($_REQUEST['sessionID']);
 
 echo json_encode($response);
@@ -43,16 +42,16 @@ echo json_encode($response);
 
 //echo json_encode(array('hello'=>'world'));
 
+// TODO Query code here to echo JSON data to the user.
+//echo json_encode(array('hello'=>'world'));
 function getSessionData($sessionID)
 {
-    //$outputType = $_REQUEST['outputType'];
-    $response['patient'] = getSubjectData($sessionID);
-    $response['database'] = getFilesData($sessionID);
+    $response = array(
+                 'patient' => getSubjectData($sessionID),
+                    'database' => array_values(getFilesData($sessionID))
+        );
     return $response;
 }
-
-
-
 function getSubjectData($sessionID)
 {
     $subjectData = array();
@@ -69,182 +68,91 @@ function getSubjectData($sessionID)
     $subjectData['output_type'] = $_REQUEST['outputType'];
     return $subjectData;
 }
-
 function getFilesData($sessionID)
 {
     $fileCollection = array();
     $db = \Database::singleton();
+    $outputType = $_REQUEST['outputType'];
     $params['SID'] = $sessionID;
-    $physiologicalFiles = $db->pselect("SELECT PhysiologicalFileID from
-    physiological_file WHERE SessionID=:SID", $params);
+    $query = 'SELECT pf.PhysiologicalFileID, pf.File from
+    physiological_file pf ';
+    //WHERE SessionID=:SID
+
+    if ($outputType != 'all_types') {
+        $query .= 'LEFT JOIN physiological_output_type pot ON ';
+        $query .= 'pf.PhysiologicalOutputTypeID=pot.PhysiologicalOutputTypeID ';
+        $query .= 'WHERE SessionID=:SID ';
+        if ($outputType == 'raw') {
+            $query .= 'AND pot.OutputType = "raw"';
+        } else if ($outputType == 'derivatives') {
+            $query .= 'AND pot.OutputType = "derivatives"';
+        }
+    } else {
+        $query .= "WHERE SessionID=:SID";
+    }
+    $physiologicalFiles = $db->pselect($query, $params);
+    $files = [];
     foreach ($physiologicalFiles as $file) {
-        $eeg = array();
+        $fileSummary = array();
         $physiologicalFileID = $file['PhysiologicalFileID'];
+        $physiologicalFile = $file['File'];
         $physiologicalFileObj = new \BIDSFile($physiologicalFileID);
         $fileName = basename($physiologicalFileObj->getParameter('File'));
-        $task = getTaskInfo($physiologicalFileObj);
-        $details = getFileDetails($physiologicalFileObj);
-        $eeg['name'] = $fileName;
-        $eeg['task'] = $task;
-        $eeg['details'] = $details;
-        $fileCollection['files'][] = $eeg;
+        $fileSummary['name'] = $fileName;
+        $fileSummary['task']['frequency']['sampling'] = $physiologicalFileObj->getParameter('SamplingFrequency');
+        $fileSummary['task']['frequency']['powerline'] = $physiologicalFileObj->getParameter('PowerLineFrequency');
+        $fileSummary['task']['channel'][] = array('name'=>'EEG Channel Count', 'value'=>$physiologicalFileObj->getParameter('EEGChannelCount'));
+        $fileSummary['task']['channel'][] = array('name'=>'EOG Channel Count', 'value'=>$physiologicalFileObj->getParameter('EOGChannelCount'));
+        $fileSummary['task']['channel'][] = array('name'=>'ECG Channel Count', 'value'=>$physiologicalFileObj->getParameter('ECGChannelCount'));
+        $fileSummary['task']['channel'][] = array('name'=>'EMG Channel Count', 'value'=>$physiologicalFileObj->getParameter('EMGChannelCount'));
+        $fileSummary['task']['reference'] = $physiologicalFileObj->getParameter('EEGReference');
+        $fileSummary['details']['task']['description'] = $physiologicalFileObj->getParameter('TaskDescription');
+        $fileSummary['details']['instructions'] = $physiologicalFileObj->getParameter('Instructions');
+        $fileSummary['details']['eeg']['ground'] = '';
+        $fileSummary['details']['eeg']['placement_scheme'] = $physiologicalFileObj->getParameter('EEGPlacementScheme');
+        $fileSummary['details']['trigger_count'] = $physiologicalFileObj->getParameter('TriggerChannelCount');
+        $fileSummary['details']['record_type'] = $physiologicalFileObj->getParameter('Recording_type');
+        $fileSummary['details']['cog']['atlas_id'] = $physiologicalFileObj->getParameter('CogAtlasID');
+        $fileSummary['details']['cog']['poid'] = $physiologicalFileObj->getParameter('CogPOID');
+        $fileSummary['details']['institution']['name'] = $physiologicalFileObj->getParameter('InstitutionName');
+        $fileSummary['details']['institution']['address'] = $physiologicalFileObj->getParameter('InstitutionAddress');
+        $fileSummary['details']['misc']['channel_count'] = $physiologicalFileObj->getParameter('MiscChannelCount');
+        $fileSummary['details']['manufacturer']['name'] = $physiologicalFileObj->getParameter('Manufacturer');
+        $fileSummary['details']['manufacturer']['model_name'] = $physiologicalFileObj->getParameter('ManufacturerModelName');
+        $fileSummary['details']['cap']['manufacturer'] = $physiologicalFileObj->getParameter('ManufacturerCapModelName');
+        $fileSummary['details']['cap']['model_name'] = $physiologicalFileObj->getParameter('ManufacturerCapModelName');
+        $fileSummary['details']['hardware_filters'] = $physiologicalFileObj->getParameter('HardwareFilters');
+        $fileSummary['details']['recording_duration'] = $physiologicalFileObj->getParameter('RecordingDuration');
+        $fileSummary['details']['epoch_length'] = $physiologicalFileObj->getParameter('EpochLength');
+        $fileSummary['details']['device']['version'] = $physiologicalFileObj->getParameter('DeviceSoftwareVersion');
+        $fileSummary['details']['device']['serial_number'] = $physiologicalFileObj->getParameter('DeviceSerialNumber');
+        $fileSummary['details']['subject_artefact_description'] = $physiologicalFileObj->getParameter('SubjectArtefactDescription');
+
+        $fileSummary['downloads'] = getDownloadLinks($physiologicalFileID, $physiologicalFile);
+        $fileCollection[]['file'] = $fileSummary;
     }
     return $fileCollection;
 }
-
-function getFileDetails($physiologicalFileObj)
+function getDownloadlinks($physiologicalFileID, $physiologicalFile)
 {
-    $details = array();
-    $details['task_description'] = $physiologicalFileObj->getParameter('TaskDescription');
-    $details['instructions'] = $physiologicalFileObj->getParameter('Instructions');
-    $details['eeg_ground'] = '';
-    $details['trigger_count'] = $physiologicalFileObj->getParameter('TriggerChannelCount');
-    $details['eeg_placement_scheme'] = $physiologicalFileObj->getParameter('EEGPlacementScheme');
-    $details['record_type'] = $physiologicalFileObj->getParameter('Recording_type');
-    $details['cog_atlas_id'] = $physiologicalFileObj->getParameter('CogAtlasID');
-    $details['cog_poid'] = $physiologicalFileObj->getParameter('CogPOID');
-    $details['institution_name'] = $physiologicalFileObj->getParameter('InstitutionName');
-    $details['institution_address'] = $physiologicalFileObj->getParameter('InstitutionAddress');
-    $details['device_serial_number'] = $physiologicalFileObj->getParameter('DeviceSerialNumber');
-    $details['misc_channel_count'] = $physiologicalFileObj->getParameter('MiscChannelCount');
-    $details['manufacturer'] = $physiologicalFileObj->getParameter('Manufacturer');
-    $details['manufacturer_model_name'] = $physiologicalFileObj->getParameter('ManufacturerModelName');
-    $details['cap_manufacturer'] = $physiologicalFileObj->getParameter('ManufacturerCapModelName');
-    $details['cap_model_name'] = '';
-    $details['hardware_filters'] = $physiologicalFileObj->getParameter('HardwareFilters');
-    $details['recording_duration'] = $physiologicalFileObj->getParameter('RecordingDuration');
-    $details['epoch_length'] = $physiologicalFileObj->getParameter('EpochLength');
-    $details['device_version'] = $physiologicalFileObj->getParameter('DeviceSoftwareVersion');
-    $details['subject_artifact_description'] = $physiologicalFileObj->getParameter('SubjectArtifactDescription');
-    return $details;
+    $db = \Database::singleton();
+    $params['PFID'] = $physiologicalFileID;
+    $downloadLinks = array();
+    $downloadLinks[] = array('type'=>'physiological_file', 'file'=> $physiologicalFile);
+    $query = "SELECT DISTINCT(File), 'physiological_electrode_file' as FileType
+                FROM physiological_electrode 
+                WHERE PhysiologicalFileID=:PFID
+                UNION 
+              SELECT DISTINCT(File), 'physiological_channel_file' as FileType
+                FROM physiological_channel
+                WHERE PhysiologicalFileID=:PFID
+                UNION 
+              SELECT DISTINCT(File), 'physiological_task_event_file' as FileType
+                FROM physiological_task_event
+                WHERE PhysiologicalFileID=:PFID";
+    $downloadResults = $db->pselect($query, $params);
+    foreach ($downloadResults as $downloadLink) {
+        $downloadLinks[] = array("type"=>$downloadLink['FileType'], "file"=>$downloadLink['File']);
+    }
+    return $downloadLinks;
 }
-
-function getTaskInfo($physiologicalFileObj){
-
-    $taskInfo = array();
-    $taskInfo['sampling_frequency'] =
-        $physiologicalFileObj->getParameter('SamplingFrequency');
-    $taskInfo['channels']  = getChannels($physiologicalFileObj);
-    $taskInfo['reference'] =
-        $physiologicalFileObj->getParameter('EEGReference');
-    $taskInfo['powerline_frequency'] =
-        $physiologicalFileObj->getParameter('PowerLineFrequency');
-    return $taskInfo;
-}
-
-function getChannels($physiologicalFileObj)
-{
-    $channels = array();
-    $eegChannel['name'] = 'EEGChannelCount';
-    $eegChannel['value'] =
-        $physiologicalFileObj->getParameter('EEGChannelCount');
-    $channels = $eegChannel;
-    $eogChannel['name'] = 'EOGChannelCount';
-    $eogChannel['value'] =
-        $physiologicalFileObj->getParameter('EOGChannelCount');
-    $channels[] = $eogChannel;
-    $ecgChannel['name'] = 'ECGChannelCount';
-    $ecgChannel['value'] =
-        $physiologicalFileObj->getParameter('ECGChannelCount');
-    $channels[] = $ecgChannel;
-    $emgChannel['name'] = 'EMGChannelCount';
-    $emgChannel['value'] =
-        $physiologicalFileObj->getParameter('EMGChannelCount');
-    $channels[]= $emgChannel;
-    return $channels;
-}
-
-
-
-//{
-//  eeg: {
-//    patient: {
-//      info: {
-//        pscid: 'cbm001',
-//        dccid: '649990',
-//        visit_label: 'V01',
-//        site: 'CBM'.
-//        dob: '',
-//        gender: '',
-//        output_type: '',
-//        subproject: ''
-//      }
-//    },
-//    database: [
-//     {
-//      file: {
-//        name: '',
-//        task: {
-//          frequency: {
-//            sampling: 512,
-//            powerline: '60Hz'
-//          },
-//          channel: [
-//            {
-//              name: 'EEG Channel Count',
-//              value: 128
-//            },
-//            {
-//              name: 'EOG Channel Count',
-//              value: 0
-//            },
-//            {
-//              name: 'EOG Channel Count',
-//              value: 0
-//            },
-//            {
-//              name: 'ECG Channel Count',
-//              value: 0
-//            },
-//            {
-//              name: 'EMG Channel Count',
-//              value: 0
-//            }
-//          ],
-//          reference: 'Common'
-//        },
-//      },
-//      details: {
-//        task: {
-//          description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
-//        },
-//        instructions: '',
-//        eeg: {
-//          ground: '',
-//          placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
-//        },
-//        trigger_count: '0',
-//        record_type: '',
-//        cog: {
-//          atlas_id: '',
-//          poid: '',
-//        },
-//        institution: {
-//          name: '',
-//          address: '',
-//        },
-//        misc: {
-//          channel_count: '',
-//        }
-//        manufacturer: {
-//          name: '',
-//          model_name: ''
-//        },
-//        cap: {
-//          manufacturer: '',
-//          model_name: '',
-//        }
-//        hardware_filters: '',
-//        recording_duration: '',
-//        epoch_length: '',
-//        device: {
-//          version: '',
-//          serial_number: '',
-//        },
-//        subject_artifact_description: ''
-//      }
-//     }
-//    ]
-//  }
-//}";
-//

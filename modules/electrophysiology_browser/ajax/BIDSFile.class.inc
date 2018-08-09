@@ -56,12 +56,15 @@ class BIDSFile
      */
     function getParameter($parameterName)
     {
-        if (isset($this->fileData[$parameterName])) {
-            return $this->fileData[$parameterName];
-        } elseif (isset($this->parameters[$parameterName])) {
-            return $this->parameters[$parameterName];
-        } else {
-            return null;
-        }
+        return $this->fileData[$parameterName] ??
+            ($this->parameters[$parameterName] ?? '');
+        /*if (isset($this->fileData[$parameterName])) {
+             return $this->fileData[$parameterName];
+         } elseif (isset($this->parameters[$parameterName])) {
+             return $this->parameters[$parameterName];
+         } else {
+             return '';
+         }
+         */
     }
 }
