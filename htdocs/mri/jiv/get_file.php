@@ -154,6 +154,9 @@ case 'DICOMTAR':
     $MimeType         = 'application/x-tar';
     $DownloadFilename = basename($File);
     $saveAs           = $_GET['saveAs'];
+    if (strpos($saveAs, ".tar") === false) {
+        $saveAs = $DownloadFilename;
+    }
     break;
 default:
     $FullPath         = $DownloadPath . '/' . $File;
