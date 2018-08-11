@@ -92,10 +92,9 @@ class FilePanel extends React.Component {
           border: '1px solid gray'
         },
         header: {
-          width: '1%',
+          width: 'auto',
           color: '#074785',
-          paddingLeft: '5px',
-          whiteSpace: 'nowrap'
+          paddingLeft: '5px'
         },
         data: {
           width: '1%',
@@ -220,10 +219,9 @@ class DetailsPanel extends React.Component {
           border: '1px solid gray'
         },
         header: {
-          width: '1%',
+          width: 'auto',
           padding:'10px',
-          color: '#074785',
-          whiteSpace: 'nowrap'
+          color: '#074785'
         },
         data: {
           width: '1%',
