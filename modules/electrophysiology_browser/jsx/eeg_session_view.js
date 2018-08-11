@@ -11,7 +11,6 @@ import {FilePanel, DetailsPanel} from './components/eeg_session_panels';
 import Sidebar from './components/Sidebar'
 import SidebarContent from './components/SidebarContent'
 
-
 class EEGSessionView extends React.Component {
   constructor(props) {
     super(props);
@@ -26,14 +25,14 @@ class EEGSessionView extends React.Component {
       },
       patient: {
         info: {
-          pscid: 'cbm001',
-          dccid: '649990',
-          visit_label: 'V01',
-          site: 'CBM',
-          dob: '1990-09-18',
-          gender: 'Female',
-          output_type: 'native',
-          subproject: 'Control Group'
+          pscid: '',
+          dccid: '',
+          visit_label: '',
+          site: '',
+          dob: '',
+          gender: '',
+          output_type: '',
+          subproject: ''
         }
       },
       database: [
@@ -42,64 +41,64 @@ class EEGSessionView extends React.Component {
             name: '',
             task: {
               frequency: {
-                sampling: 512,
-                powerline: '60Hz'
+                sampling: '',
+                powerline: ''
               },
               channel: [
                 {
-                  name: 'EEG Channel Count',
-                  value: 128
+                  name: '',
+                  value: ''
                 },
                 {
-                  name: 'EOG Channel Count',
-                  value: 0
+                  name: '',
+                  value: ''
                 },
                 {
-                  name: 'ECG Channel Count',
-                  value: 0
+                  name: '',
+                  value: ''
                 },
                 {
-                  name: 'EMG Channel Count',
-                  value: 0
+                  name: '',
+                  value: ''
                 }
               ],
-              reference: 'Common'
+              reference: ''
             },
             details: {
               task: {
-                description: 'Visual presentation of oval cropped face and house images both upright and inverted. Rare left or right half oval checkerboards were presented as targets for keypress response.'
+                description: ''
               },
               instructions: '',
               eeg: {
                 ground: '',
-                placement_scheme: 'Custom equidistant 128 channel BioSemi montage',
+                placement_scheme: '',
               },
-              trigger_count: '0',
-              record_type: 'Continuous',
+              trigger_count: '',
+              record_type: '',
               cog: {
                 atlas_id: '',
                 poid: '',
               },
               institution: {
-                name: 'Brock University',
-                address: '500 Glenrifge Ave, St. Catharines, Ontario',
+                name: '',
+                address: '',
               },
               misc: {
-                channel_count: '0',
+                channel_count: '',
               },
               manufacturer: {
-                name: 'BioSemi',
-                model_name: 'Active Two'
+                name: '',
+                model_name: ''
               },
               cap: {
-                manufacturer: 'Electro Cap International',
+                manufacturer: '',
                 model_name: '',
               },
               hardware_filters: '',
-              recording_duration: '2045',
-              epoch_length: 'Inf',
+              recording_duration: '',
+              epoch_length: '',
               device: {
-                version: 'NI ActiView 532-Lores',
+                version: '',
                 serial_number: '',
               },
               subject_artifact_description: ''
@@ -140,7 +139,6 @@ class EEGSessionView extends React.Component {
       outputType: outputType === null ? 'all_types' : outputType
     };
     this.state.url.params = params;
-    console.log(JSON.stringify(params));
   }
 
   /**
@@ -153,9 +151,6 @@ class EEGSessionView extends React.Component {
       dataType: 'json',
       data: this.state.url.params,
       success: function(data) {
-        console.log('ajax (get) - success!');
-        console.log(JSON.stringify(data));
-
         this.getState((appState) => {
           appState.setup = {
             data
@@ -166,7 +161,6 @@ class EEGSessionView extends React.Component {
           for (let i=0; i<data.database.length; i++) {
             database.push(data.database[i]);
           }
-
           appState.database = database;
           this.setState(appState);
           console.log(JSON.stringify(appState));
@@ -227,7 +221,16 @@ class EEGSessionView extends React.Component {
       return (
         <div id='lorisworkspace'>
           <StaticDataTable
-            Headers={['PSCID', 'DCCID', 'Visit Label', 'Site', 'DOB', 'Gender', 'Output Type', 'Subproject']}
+            Headers={[
+              'PSCID',
+              'DCCID',
+              'Visit Label',
+              'Site',
+              'DOB',
+              'Gender',
+              'Output Type',
+              'Subproject'
+            ]}
             Data={[
               [
                 this.state.patient.info.pscid,
@@ -304,8 +307,7 @@ window.onload = function() {
   const rootDOM = document.getElementById('lorisworkspace');
   rootDOM.appendChild(EEGSessionViewAppDOM);
 
-  // Render the React Component.
+  // Render the React Components.
   ReactDOM.render(eegSessionView, document.getElementById('eegSessionView'));
-
   ReactDOM.render(eegSidebar, document.getElementById('eegSidebar'));
 };

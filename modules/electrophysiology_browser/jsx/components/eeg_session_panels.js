@@ -92,8 +92,14 @@ class FilePanel extends React.Component {
           border: '1px solid gray'
         },
         header: {
+          width: '1%',
           color: '#074785',
-          paddingLeft: '5px'
+          paddingLeft: '5px',
+          whiteSpace: 'nowrap'
+        },
+        data: {
+          width: '1%',
+          whiteSpace: 'nowrap'
         }
       }
     };
@@ -110,31 +116,31 @@ class FilePanel extends React.Component {
                 <caption style={styles.table.caption}>Task Name: FaceHousCheck</caption>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>Sampling Frequency</th>
-                  <td>{this.state.data.task.frequency.sampling}</td>
+                  <td style={styles.table.data}>{this.state.data.task.frequency.sampling}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>{this.state.data.task.channel[0].name}</th>
-                  <td>{this.state.data.task.channel[0].value}</td>
+                  <td style={styles.table.data}>{this.state.data.task.channel[0].value}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>{this.state.data.task.channel[1].name}</th>
-                  <td>{this.state.data.task.channel[1].value}</td>
+                  <td style={styles.table.data}>{this.state.data.task.channel[1].value}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>{this.state.data.task.channel[2].name}</th>
-                  <td>{this.state.data.task.channel[2].value}</td>
+                  <td style={styles.table.data}>{this.state.data.task.channel[2].value}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>{this.state.data.task.channel[3].name}</th>
-                  <td>{this.state.data.task.channel[3].value}</td>
+                  <td style={styles.table.data}>{this.state.data.task.channel[3].value}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>EEG Reference</th>
-                  <td>{this.state.data.task.reference}</td>
+                  <td style={styles.table.data}>{this.state.data.task.reference}</td>
                 </tr>
                 <tr style={styles.table.row}>
                   <th scope='row' style={styles.table.header}>Powerline Frequency</th>
-                  <td>{this.state.data.task.frequency.powerline}</td>
+                  <td style={styles.table.data}>{this.state.data.task.frequency.powerline}</td>
                 </tr>
               </table>
             </div>
@@ -214,11 +220,15 @@ class DetailsPanel extends React.Component {
           border: '1px solid gray'
         },
         header: {
+          width: '1%',
           padding:'10px',
-          color: '#074785'
+          color: '#074785',
+          whiteSpace: 'nowrap'
         },
         data: {
-          padding:'10px'
+          width: '1%',
+          padding:'10px',
+          whiteSpace: 'nowrap'
         }
       }
     };
@@ -227,98 +237,102 @@ class DetailsPanel extends React.Component {
       <Panel id={this.props.id} title={this.props.title} style={styles.panel}>
         <div className={'container-fluid'}>
           <div className={'row'}>
-            <div className={'col-sm-6'} style={styles.container.task}>
-              <table style={styles.table.style}>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Task Description</th>
-                  <td style={styles.table.data}>{this.state.data.task.description}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Instructions</th>
-                  <td style={styles.table.data}>{this.state.data.instructions}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>EEG Ground</th>
-                  <td style={styles.table.data}>{this.state.data.eeg.ground}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Trigger Count</th>
-                  <td style={styles.table.data}>{this.state.data.trigger_count}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>EEG Placement Scheme</th>
-                  <td style={styles.table.data}>{this.state.data.eeg.placement_scheme}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Record Type</th>
-                  <td style={styles.table.data}>{this.state.data.record_type}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>CogAtlas ID</th>
-                  <td style={styles.table.data}>{this.state.data.cog.atlas_id}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>CogPOID</th>
-                  <td style={styles.table.data}>{this.state.data.cog.poid}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Institution Name</th>
-                  <td style={styles.table.data}>{this.state.data.institution.name}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Institution Address</th>
-                  <td style={styles.table.data}>{this.state.data.institution.address}</td>
-                </tr>
-              </table>
+            <div className={'col-xs-6'} style={styles.container.task}>
+              <div className='table-responsive' style={{overflowX: 'scroll'}}>
+                <table style={styles.table.style}>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Task Description</th>
+                    <td style={styles.table.data}>{this.state.data.task.description}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Instructions</th>
+                    <td style={styles.table.data}>{this.state.data.instructions}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>EEG Ground</th>
+                    <td style={styles.table.data}>{this.state.data.eeg.ground}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Trigger Count</th>
+                    <td style={styles.table.data}>{this.state.data.trigger_count}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>EEG Placement Scheme</th>
+                    <td style={styles.table.data}>{this.state.data.eeg.placement_scheme}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Record Type</th>
+                    <td style={styles.table.data}>{this.state.data.record_type}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>CogAtlas ID</th>
+                    <td style={styles.table.data}>{this.state.data.cog.atlas_id}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>CogPOID</th>
+                    <td style={styles.table.data}>{this.state.data.cog.poid}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Institution Name</th>
+                    <td style={styles.table.data}>{this.state.data.institution.name}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Institution Address</th>
+                    <td style={styles.table.data}>{this.state.data.institution.address}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
 
-            <div className={'col-sm-6'} style={styles.container.device}>
-              <table style={styles.table.style}>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Device Serial Number</th>
-                  <td style={styles.table.data}>{this.state.data.device.serial_number}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Misc Channel Count</th>
-                  <td style={styles.table.data}>{this.state.data.misc.channel_count}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Manufacturer</th>
-                  <td style={styles.table.data}>{this.state.data.manufacturer.name}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Manufacturer Model Name</th>
-                  <td style={styles.table.data}>{this.state.data.manufacturer.model_name}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Cap Manufacturer</th>
-                  <td style={styles.table.data}>{this.state.data.cap.manufacturer}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Cap Model Name</th>
-                  <td style={styles.table.data}>{this.state.data.cap.model_name}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope="row" style={styles.table.header}>Hardware Filters</th>
-                  <td style={styles.table.data}>{this.state.data.hardware_filters}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Recording Duration</th>
-                  <td style={styles.table.data}>{this.state.data.recording_duration}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Epoch Length</th>
-                  <td style={styles.table.data}>{this.state.data.epoch_length}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Device Version</th>
-                  <td style={styles.table.data}>{this.state.data.device.version}</td>
-                </tr>
-                <tr style={styles.table.row}>
-                  <th scope='row' style={styles.table.header}>Subject Artifact Description</th>
-                  <td style={styles.table.data}>{this.state.data.subject_artifact_description}</td>
-                </tr>
-              </table>
+            <div className={'col-xs-6'} style={styles.container.device}>
+              <div className='table-responsive' style={{overflowX: 'scroll'}}>
+                <table style={styles.table.style}>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Device Serial Number</th>
+                    <td style={styles.table.data}>{this.state.data.device.serial_number}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Misc Channel Count</th>
+                    <td style={styles.table.data}>{this.state.data.misc.channel_count}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Manufacturer</th>
+                    <td style={styles.table.data}>{this.state.data.manufacturer.name}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Manufacturer Model Name</th>
+                    <td style={styles.table.data}>{this.state.data.manufacturer.model_name}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Cap Manufacturer</th>
+                    <td style={styles.table.data}>{this.state.data.cap.manufacturer}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Cap Model Name</th>
+                    <td style={styles.table.data}>{this.state.data.cap.model_name}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope="row" style={styles.table.header}>Hardware Filters</th>
+                    <td style={styles.table.data}>{this.state.data.hardware_filters}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Recording Duration</th>
+                    <td style={styles.table.data}>{this.state.data.recording_duration}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Epoch Length</th>
+                    <td style={styles.table.data}>{this.state.data.epoch_length}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Device Version</th>
+                    <td style={styles.table.data}>{this.state.data.device.version}</td>
+                  </tr>
+                  <tr style={styles.table.row}>
+                    <th scope='row' style={styles.table.header}>Subject Artifact Description</th>
+                    <td style={styles.table.data}>{this.state.data.subject_artifact_description}</td>
+                  </tr>
+                </table>
+              </div>
             </div>
 
           </div>

@@ -31,13 +31,6 @@ const styles = {
 };
 
 const SidebarContent = (props) => {
-    const links = [];
-
-    for (let i = 0; i<10; i++) {
-        links.push(
-            <a key={i} href='' style={styles.sidebarLink}>Menu item {i}</a>
-        );
-    }
 
     return (
         <div style={styles.sidebar}>
