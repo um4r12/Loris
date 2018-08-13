@@ -134,11 +134,10 @@ class EEGSessionView extends React.Component {
   collectParams() {
     const url = new URL(window.location.href);
     const outputType = url.searchParams.get('outputType');
-    const params = {
+    this.state.url.params = {
       sessionID: url.searchParams.get('sessionID'),
       outputType: outputType === null ? 'all_types' : outputType
     };
-    this.state.url.params = params;
   }
 
   /**
@@ -277,14 +276,14 @@ window.onload = function() {
     </Sidebar>
   );
 
-  const EEGSidebarDOM = document.createElement('div');
-  EEGSidebarDOM.style.top = '0';
-  EEGSidebarDOM.style.bottom = '0';
-  EEGSidebarDOM.style.left = '0';
-  EEGSidebarDOM.style.display = 'table-cell';
-  EEGSidebarDOM.style.height = 'calc(100%);';
-  EEGSidebarDOM.style.position = 'fixed';
-  EEGSidebarDOM.id = 'eegSidebar';
+  const eegSidebarDOM = document.createElement('div');
+  eegSidebarDOM.style.top = '0';
+  eegSidebarDOM.style.bottom = '0';
+  eegSidebarDOM.style.left = '0';
+  eegSidebarDOM.style.display = 'table-cell';
+  eegSidebarDOM.style.height = 'calc(100%);';
+  eegSidebarDOM.style.position = 'fixed';
+  eegSidebarDOM.id = 'eegSidebar';
 
   let page = document.getElementById('page');
   page.style.verticalAlign = 'top';
@@ -292,7 +291,7 @@ window.onload = function() {
   page.style.width = 'auto';
   page.style.marginLeft = '256px';
   const wrapDOM = document.getElementById('wrap');
-  wrapDOM.insertBefore(EEGSidebarDOM, page);
+  wrapDOM.insertBefore(eegSidebarDOM, page);
 
   const eegSessionView = (
     <EEGSessionView
