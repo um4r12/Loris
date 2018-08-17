@@ -34,9 +34,9 @@ class BIDSFile
         $db     =& Database::singleton();
         $params = array('PFID' => $physiologicalFileID);
         $query = "SELECT * FROM physiological_file WHERE PhysiologicalFileID=:PFID";
-        $fileData = $db->pselectRow($query, $params);
+        $queryData = $db->pselectRow($query, $params);
         // Stores each property (column) of the file 
-        foreach ($fileData AS $fieldName=>$fieldValue) {
+        foreach ($queryData AS $fieldName=>$fieldValue) {
             $this->fileData[$fieldName] = $fieldValue;
         }
         $query        = "SELECT Name, Value
@@ -44,12 +44,11 @@ class BIDSFile
             WHERE ppf.ParameterTypeID=pt.ParameterTypeID AND
             PhysiologicalFileID=:PFID";
         // Stores each parameter of the file
-        $parameterRaw = $db->pselect($query, $params);
-        foreach ($parameterRaw AS $parameterName=>$parameterValue) {
-            $this->parameters[$parameterName] = $parameterValue;
+        $parameterData = $db->pselect($query, $params);
+         
+        foreach ($parameterData AS $parameter) {
+            $this->parameters[$parameter['Name']] = $parameter['Value'];
         }
-        error_log($fileData);
-        error_log($parameters);
     }
     /**
      * Gets a parameter for this file from the appropriate place
@@ -63,8 +62,8 @@ class BIDSFile
         // Returns $parameterName if it is part of the BIDSFile properties
         // Otherwise returns $parameterName if it is part of the BIDSFile parameters
         // Otherwise, returns an empty string
-
         return $this->fileData[$parameterName] ??
             ($this->parameters[$parameterName] ?? '');
+       
     }
 }
