@@ -13,9 +13,7 @@
  * @license  Loris license
  * @link     https://github.com/aces/Loris-Trunk
  */
-
 require_once 'BIDSFile.class.inc';
-
 /**
  * User permission verification:
  * Only users that have the eeg view all sites permission OR
@@ -33,15 +31,10 @@ if (!$user->hasPermission('electrophysiology_browser_view_allsites')
     header('HTTP/1.1 403 Forbidden');
     exit;
 }
-
 $response = getSessionData($_REQUEST['sessionID']);
-
 echo json_encode($response);
-
 // TODO Query code here to echo JSON data to the user.
-
 //echo json_encode(array('hello'=>'world'));
-
 // TODO Query code here to echo JSON data to the user.
 //echo json_encode(array('hello'=>'world'));
 function getSessionData($sessionID)
@@ -59,7 +52,7 @@ function getSubjectData($sessionID)
     $candidate =& \Candidate::singleton($timePoint->getCandID());
     $subjectData['pscid'] = $candidate->getPSCID();
     $subjectData['dccid'] = $timePoint->getCandID();
-    $subjectData['visitLabel'] = $timePoint->getVisitLabel();
+    $subjectData['visit_label'] = $timePoint->getVisitLabel();
     $subjectData['sessionID'] = $sessionID;
     $subjectData['site'] = $timePoint->getPSC();
     $subjectData['dob'] = $candidate->getCandidateDoB();
@@ -77,7 +70,6 @@ function getFilesData($sessionID)
     $query = 'SELECT pf.PhysiologicalFileID, pf.File from
     physiological_file pf ';
     //WHERE SessionID=:SID
-
     if ($outputType != 'all_types') {
         $query .= 'LEFT JOIN physiological_output_type pot ON ';
         $query .= 'pf.PhysiologicalOutputTypeID=pot.PhysiologicalOutputTypeID ';
@@ -127,7 +119,6 @@ function getFilesData($sessionID)
         $fileSummary['details']['device']['version'] = $physiologicalFileObj->getParameter('DeviceSoftwareVersion');
         $fileSummary['details']['device']['serial_number'] = $physiologicalFileObj->getParameter('DeviceSerialNumber');
         $fileSummary['details']['subject_artefact_description'] = $physiologicalFileObj->getParameter('SubjectArtefactDescription');
-
         $fileSummary['downloads'] = getDownloadLinks($physiologicalFileID, $physiologicalFile);
         $fileCollection[]['file'] = $fileSummary;
     }

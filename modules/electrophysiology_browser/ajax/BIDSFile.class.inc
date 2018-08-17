@@ -23,9 +23,9 @@ class BIDSFile
 {
     var $fileData   = array();
     var $parameters = array();
-    //var $QCData     = array();
+    
     /**
-     * Construct a BIDSFile
+     * Construct a BIDSFile and its parameters
      *
      * @param integer $physiologicalFileID The PhysiologicalFileID to be loaded
      */
@@ -35,36 +35,36 @@ class BIDSFile
         $params = array('PFID' => $physiologicalFileID);
         $query = "SELECT * FROM physiological_file WHERE PhysiologicalFileID=:PFID";
         $fileData = $db->pselectRow($query, $params);
-        foreach ($fileData AS $key=>$value) {
-            $this->fileData[$key] = $value;
+        // Stores each property (column) of the file 
+        foreach ($fileData AS $fieldName=>$fieldValue) {
+            $this->fileData[$fieldName] = $fieldValue;
         }
         $query        = "SELECT Name, Value
             FROM physiological_parameter_file as ppf, parameter_type as pt
             WHERE ppf.ParameterTypeID=pt.ParameterTypeID AND
             PhysiologicalFileID=:PFID";
+        // Stores each parameter of the file
         $parameterRaw = $db->pselect($query, $params);
-        foreach ($parameterRaw AS $row) {
-            $this->parameters[$row['Name']] = $row['Value'];
+        foreach ($parameterRaw AS $parameterName=>$parameterValue) {
+            $this->parameters[$parameterName] = $parameterValue;
         }
+        error_log($fileData);
+        error_log($parameters);
     }
     /**
      * Gets a parameter for this file from the appropriate place
      *
      * @param string $parameterName The parameter to be retrieved
      *
-     * @return mixed The value of the parameter
+     * @return string The value of the parameter
      */
     function getParameter($parameterName)
     {
+        // Returns $parameterName if it is part of the BIDSFile properties
+        // Otherwise returns $parameterName if it is part of the BIDSFile parameters
+        // Otherwise, returns an empty string
+
         return $this->fileData[$parameterName] ??
             ($this->parameters[$parameterName] ?? '');
-        /*if (isset($this->fileData[$parameterName])) {
-             return $this->fileData[$parameterName];
-         } elseif (isset($this->parameters[$parameterName])) {
-             return $this->parameters[$parameterName];
-         } else {
-             return '';
-         }
-         */
     }
 }
