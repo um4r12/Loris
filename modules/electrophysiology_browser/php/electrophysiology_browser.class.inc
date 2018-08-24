@@ -155,7 +155,6 @@ class Electrophysiology_Browser extends \NDB_Menu_Filter {
         // set the group by and order by of the query
         $this->group_by = " SessionID";
         $this->order_by = " c.PSCID";
-
         return true;
     }
 

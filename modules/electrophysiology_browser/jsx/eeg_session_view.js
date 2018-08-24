@@ -125,7 +125,6 @@ class EEGSessionView extends React.Component {
    * Post-Render when we can access the DOM.
    */
   componentDidUpdate(prevProps, prevState) {
-    console.log('componentDidUpdate');
   }
 
   /**
@@ -162,7 +161,6 @@ class EEGSessionView extends React.Component {
           }
           appState.database = database;
           this.setState(appState);
-          console.log(JSON.stringify(appState));
         });
       }.bind(this),
       error: function(error) {

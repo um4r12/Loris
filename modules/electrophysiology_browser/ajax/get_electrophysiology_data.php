@@ -39,10 +39,8 @@ echo json_encode($response);
 //echo json_encode(array('hello'=>'world'));
 function getSessionData($sessionID)
 {
-    $response = array(
-                 'patient' => getSubjectData($sessionID),
-                    'database' => array_values(getFilesData($sessionID))
-        );
+    $response['patient'] = getSubjectData($sessionID);
+    $response['database'] = array_values(getFilesData($sessionID)); 
     return $response;
 }
 function getSubjectData($sessionID)

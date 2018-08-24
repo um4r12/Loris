@@ -191,8 +191,6 @@ class DetailsPanel extends React.Component {
       data: this.props.data
     };
 
-    console.log('Check this');
-    console.log(this.state.data);
 
   }
 
