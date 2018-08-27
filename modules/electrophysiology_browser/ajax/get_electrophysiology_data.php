@@ -39,8 +39,19 @@ echo json_encode($response);
 //echo json_encode(array('hello'=>'world'));
 function getSessionData($sessionID)
 {
+    $db = \Database::singleton();
+    $query = 'SELECT DISTINCT(pf.SessionID) FROM physiological_file pf LEFT
+    JOIN session s ON s.ID=pf.SessionID LEFT JOIN candidate c USING (CandID)
+    LEFT JOIN psc ON s.CenterID=psc.CenterID LEFT JOIN physiological_output_type
+    pot USING (PhysiologicalOutputTypeID) WHERE s.Active = "Y" AND pf.FileType
+    IN ("bdf", "cnt", "edf", "set", "vhdr", "vsm") ORDER BY pf.SessionID';
+    $sessions = $db->pselect($query, array());
     $response['patient'] = getSubjectData($sessionID);
     $response['database'] = array_values(getFilesData($sessionID)); 
+    $response['sessions'] = $sessions;
+    $response['nextSession'] = '';
+    $response['prevSession'] = '';
+    error_log(print_r($response,true));
     return $response;
 }
 function getSubjectData($sessionID)
