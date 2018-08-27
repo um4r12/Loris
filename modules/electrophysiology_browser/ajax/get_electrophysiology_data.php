@@ -33,6 +33,7 @@ if (!$user->hasPermission('electrophysiology_browser_view_allsites')
 }
 $response = getSessionData($_REQUEST['sessionID']);
 echo json_encode($response);
+
 // TODO Query code here to echo JSON data to the user.
 //echo json_encode(array('hello'=>'world'));
 // TODO Query code here to echo JSON data to the user.
@@ -46,12 +47,15 @@ function getSessionData($sessionID)
     pot USING (PhysiologicalOutputTypeID) WHERE s.Active = "Y" AND pf.FileType
     IN ("bdf", "cnt", "edf", "set", "vhdr", "vsm") ORDER BY pf.SessionID';
     $sessions = $db->pselect($query, array());
+    $sessions = array_column($sessions, 'SessionID');
     $response['patient'] = getSubjectData($sessionID);
     $response['database'] = array_values(getFilesData($sessionID)); 
     $response['sessions'] = $sessions;
-    $response['nextSession'] = '';
-    $response['prevSession'] = '';
-    error_log(print_r($response,true));
+    $currentIndex = array_search($sessionID,$sessions);
+    $response['nextSession'] = isset($sessions[$currentIndex+1]) ?
+    $sessions[$currentIndex+1] : '';
+    $response['prevSession'] = isset($sessions[$currentIndex-1]) ?
+    $sessions[$currentIndex-1] : '';
     return $response;
 }
 function getSubjectData($sessionID)
@@ -99,7 +103,9 @@ function getFilesData($sessionID)
         $physiologicalFile = $file['File'];
         $physiologicalFileObj = new \BIDSFile($physiologicalFileID);
         $fileName = basename($physiologicalFileObj->getParameter('File'));
+        
         $fileSummary['name'] = $fileName;
+
         $fileSummary['task']['frequency']['sampling'] = $physiologicalFileObj->getParameter('SamplingFrequency');
         $fileSummary['task']['frequency']['powerline'] = $physiologicalFileObj->getParameter('PowerLineFrequency');
         $fileSummary['task']['channel'][] = array('name'=>'EEG Channel Count', 'value'=>$physiologicalFileObj->getParameter('EEGChannelCount'));
@@ -129,6 +135,7 @@ function getFilesData($sessionID)
         $fileSummary['details']['device']['serial_number'] = $physiologicalFileObj->getParameter('DeviceSerialNumber');
         $fileSummary['details']['subject_artefact_description'] = $physiologicalFileObj->getParameter('SubjectArtefactDescription');
         $fileSummary['downloads'] = getDownloadLinks($physiologicalFileID, $physiologicalFile);
+        
         $fileCollection[]['file'] = $fileSummary;
     }
     return $fileCollection;
@@ -149,7 +156,17 @@ function getDownloadlinks($physiologicalFileID, $physiologicalFile)
                 UNION 
               SELECT DISTINCT(File), 'physiological_task_event_file' as FileType
                 FROM physiological_task_event
+                WHERE PhysiologicalFileID=:PFID
+                UNION
+              SELECT DISTINCT(File), 'all_files' as FileType
+                FROM physiological_archive
                 WHERE PhysiologicalFileID=:PFID";
+    if (pathinfo($physiologicalFile)['extension'] == 'set') {
+        $query .= " UNION SELECT Value as File, 'physiological_fdt_file' as
+        FileType FROM physiological_parameter_file JOIN parameter_type AS pt
+        USING (ParameterTypeID) WHERE pt.Name='fdt_file' AND
+        PhysiologicalFileID=:PFID";
+    }
     $downloadResults = $db->pselect($query, $params);
     foreach ($downloadResults as $downloadLink) {
         $downloadLinks[] = array("type"=>$downloadLink['FileType'], "file"=>$downloadLink['File']);
